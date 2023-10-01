@@ -40,30 +40,100 @@ const playRound = (player, computer) => {
 	}
 };
 
+const checkFinalWinner = (playerScore, computerScore) => {
+	if (playerScore >= 5) {
+		return "PLAYER WINS THE TOURNAMENT";
+	} else if (computerScore >= 5) {
+		return "COMPUTER WINS THE TOURNAMENT";
+	} else if (playerScore >= 5 && computerScore >= 5) {
+		return "THE TOURNAMENT IS A TIE!!";
+	} else {
+		return;
+	}
+};
+
 const game = () => {
 	let playerScore = 0;
 	let computerScore = 0;
 
-	for (let i = 0; i < 5; i++) {
-		const playerChoice = playerSelection();
-		const computerChoice = getComputerSelection();
+	const winnerSquare = document.getElementById("winner-square");
+	const scoreSquare = document.getElementById("score-square");
+	scoreSquare.innerHTML = `PLAYER: ${playerScore} | COMPUTER: ${computerScore}`;
 
-		const roundWinner = playRound(playerChoice, computerChoice);
-		if (roundWinner === RoundPlayers.computer) {
-			computerScore = computerScore + 1;
-			console.log(
-				`${roundWinner} win, ${computerChoice} win against ${playerChoice}`
-			);
-		} else if (roundWinner === RoundPlayers.player) {
-			playerScore += 1;
-			console.log(
-				`${roundWinner} win, ${playerChoice} win against ${computerChoice}`
+	document.getElementById("btn-rock").addEventListener("click", () => {
+		const computerChoice = getComputerSelection();
+		const roundWinner = playRound("rock", computerChoice);
+
+		if ((playerScore >= 5) | (computerScore >= 5)) {
+			winnerSquare.innerHTML = checkFinalWinner(
+				playerScore,
+				computerScore
 			);
 		} else {
-			console.log("It is a TIE!");
+			if (roundWinner === RoundPlayers.computer) {
+				computerScore = computerScore + 1;
+				scoreSquare.innerHTML = `PLAYER: ${playerScore} | COMPUTER: ${computerScore}`;
+				winnerSquare.innerHTML = `${roundWinner} win, ${computerChoice} win against ROCK`;
+			} else if (roundWinner === RoundPlayers.player) {
+				playerScore += 1;
+				scoreSquare.innerHTML = `PLAYER: ${playerScore} | COMPUTER: ${computerScore}`;
+				winnerSquare.innerHTML = `${roundWinner} win, ROCK win against ${computerChoice}`;
+			} else {
+				winnerSquare.innerHTML = "It is a TIE!";
+			}
 		}
-		console.log({ playerScore, computerScore });
-	}
+	});
+
+	document.getElementById("btn-paper").addEventListener("click", () => {
+		const computerChoice = getComputerSelection();
+		const roundWinner = playRound("paper", computerChoice);
+
+		if ((playerScore >= 5) | (computerScore >= 5)) {
+			winnerSquare.innerHTML = checkFinalWinner(
+				playerScore,
+				computerScore
+			);
+		} else {
+			if (roundWinner === RoundPlayers.computer) {
+				computerScore = computerScore + 1;
+				scoreSquare.innerHTML = `PLAYER: ${playerScore} | COMPUTER: ${computerScore}`;
+
+				winnerSquare.innerHTML = `${roundWinner} win, ${computerChoice} win against PAPER`;
+			} else if (roundWinner === RoundPlayers.player) {
+				playerScore += 1;
+				scoreSquare.innerHTML = `PLAYER: ${playerScore} | COMPUTER: ${computerScore}`;
+
+				winnerSquare.innerHTML = `${roundWinner} win, PAPER win against ${computerChoice}`;
+			} else {
+				winnerSquare.innerHTML = "It is a TIE!";
+			}
+		}
+	});
+
+	document.getElementById("btn-scissors").addEventListener("click", () => {
+		const computerChoice = getComputerSelection();
+		const roundWinner = playRound("scissors", computerChoice);
+		if ((playerScore >= 5) | (computerScore >= 5)) {
+			winnerSquare.innerHTML = checkFinalWinner(
+				playerScore,
+				computerScore
+			);
+		} else {
+			if (roundWinner === RoundPlayers.computer) {
+				computerScore = computerScore + 1;
+				scoreSquare.innerHTML = `PLAYER: ${playerScore} | COMPUTER: ${computerScore}`;
+
+				winnerSquare.innerHTML = `${roundWinner} win, ${computerChoice} win against SCISSORS`;
+			} else if (roundWinner === RoundPlayers.player) {
+				playerScore += 1;
+				scoreSquare.innerHTML = `PLAYER: ${playerScore} | COMPUTER: ${computerScore}`;
+
+				winnerSquare.innerHTML = `${roundWinner} win, SCISSORS    win against ${computerChoice}`;
+			} else {
+				winnerSquare.innerHTML = "It is a TIE!";
+			}
+		}
+	});
 };
 
 game();
